@@ -1,0 +1,9 @@
+#Организация стека
+fruits=['apple','banana','avocado']
+#Сохраним полученные переменные в списке
+stack=
+stack.append('apple')
+stack.append('banana')
+stack.append('avocado')
+#Удаление из стека
+stack.pop()
