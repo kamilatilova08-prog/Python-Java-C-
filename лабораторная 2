@@ -1,0 +1,222 @@
+1. Мультисписок (вложенный список)
+Python
+# Создание вложенного списка
+nested_list = [[1, 2, 3], [4, 5], [6, 7, 8, 9]]
+
+# Преобразование в один список
+flat_list = []
+for sublist in nested_list:
+    for item in sublist:
+        flat_list.append(item)
+# Или с помощью list comprehension:
+flat_list = [item for sublist in nested_list for item in sublist]
+________________________________________C++
+#include <vector>
+#include <iostream>
+
+int main() {
+    std::vector<std::vector<int>> nested_list = {{1, 2, 3}, {4, 5}, {6, 7, 8, 9}};
+    std::vector<int> flat_list;
+
+    for (const auto& sublist : nested_list) {
+        for (int item : sublist) {
+            flat_list.push_back(item);
+        }
+    }
+
+    for (int item : flat_list) {
+        std::cout << item << " ";
+    }
+    return 0;
+}
+________________________________________Java
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<List<Integer>> nestedList = Arrays.asList(
+            Arrays.asList(1, 2, 3),
+            Arrays.asList(4, 5),
+            Arrays.asList(6, 7, 8, 9)
+        );
+
+        List<Integer> flatList = new ArrayList<>();
+        for (List<Integer> sublist : nestedList) {
+            flatList.addAll(sublist);
+        }
+
+        System.out.println(flatList);
+    }
+}
+________________________________________
+2. Очередь / Дек
+Python
+from collections import deque
+
+# Очередь (FIFO)
+queue = deque()
+queue.append("task1")
+queue.append("task2")
+queue.append("task3")
+while queue:
+    print(queue.popleft())
+
+# Дек (двусторонняя очередь)
+deq = deque([1, 2, 3])
+deq.appendleft(0)
+deq.append(4)
+print(list(deq))  # [0, 1, 2, 3, 4]
+________________________________________
+C++
+#include <queue>
+#include <deque>
+#include <iostream>
+
+int main() {
+    // Очередь
+    std::queue<int> q;
+    q.push(1);
+    q.push(2);
+    q.push(3);
+    while (!q.empty()) {
+        std::cout << q.front() << " ";
+        q.pop();
+    }
+
+    // Дек
+    std::deque<int> dq = {1, 2, 3};
+    dq.push_front(0);
+    dq.push_back(4);
+    for (int n : dq) std::cout << n << " ";
+    return 0;
+}
+________________________________________Java
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        // Очередь
+        Queue<String> queue = new LinkedList<>();
+        queue.add("task1");
+        queue.add("task2");
+        queue.add("task3");
+        while (!queue.isEmpty()) {
+            System.out.println(queue.poll());
+        }
+
+        // Дек
+        Deque<Integer> deque = new ArrayDeque<>();
+        deque.addFirst(0);
+        deque.addLast(1);
+        deque.addLast(2);
+        while (!deque.isEmpty()) {
+            System.out.println(deque.pollFirst());
+        }
+    }
+}
+________________________________________
+3. Приоритетная очередь
+Python
+import heapq
+
+# Минимальная куча (min-heap)
+pq = []
+heapq.heappush(pq, (2, "средний"))
+heapq.heappush(pq, (1, "высокий"))
+heapq.heappush(pq, (3, "низкий"))
+while pq:
+    print(heapq.heappop(pq))
+
+# Использование PriorityQueue
+from queue import PriorityQueue
+pq2 = PriorityQueue()
+pq2.put((2, "mid"))
+pq2.put((1, "high"))
+pq2.put((3, "low"))
+while not pq2.empty():
+    print(pq2.get())
+________________________________________C++
+#include <iostream>
+#include <queue>
+
+int main() {
+    // По умолчанию — max-heap
+    std::priority_queue<int> pq;
+    pq.push(10);
+    pq.push(5);
+    pq.push(15);
+    while (!pq.empty()) {
+        std::cout << pq.top() << " ";
+        pq.pop();
+    }
+
+    // Min-heap
+    std::priority_queue<int, std::vector<int>, std::greater<int>> min_pq;
+    min_pq.push(10);
+    min_pq.push(5);
+    min_pq.push(15);
+    while (!min_pq.empty()) {
+        std::cout << min_pq.top() << " ";
+        min_pq.pop();
+    }
+    return 0;
+}
+________________________________________Java
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        // Min-heap (естественный порядок)
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        minHeap.offer(10);
+        minHeap.offer(5);
+        minHeap.offer(15);
+        while (!minHeap.isEmpty()) {
+            System.out.println(minHeap.poll());
+        }
+
+        // Max-heap с компаратором
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Comparator.reverseOrder());
+        maxHeap.offer(10);
+        maxHeap.offer(5);
+        maxHeap.offer(15);
+        while (!maxHeap.isEmpty()) {
+            System.out.println(maxHeap.poll());
+        }
+    }
+}
+________________________________________
+Аналитический отчёт
+Сравнение подходов к формированию линейных структур данных на трех языках программирования: Python, C++ и Java
+________________________________________
+1. Мультисписок 
+Цель: Хранение и обработка сложных коллекций данных.
+Особенности формирования:
+o	Python: Используя встроенную поддержку списков, легко создаются вложенные списки (многомерные массивы). Доступны стандартные операции: добавление (append), удаление (pop), модификация элементов. Подход удобен благодаря простоте синтаксиса и эффективности работы с памятью.
+o	C++: В отличие от Python, создание динамических списков требует больше усилий. Необходимо вручную управлять памятью и связями между узлами списка. Эффективнее всего реализовать двусвязный список с поддержкой головных и хвостовых ссылок для быстрого доступа.
+o	Java: Класс LinkedList из пакета java.util обеспечивает удобные методы для работы с двусвязными списками. Операции вставки, удаления и модификации выполняются эффективно, однако дополнительные накладные расходы связаны с автоматической обработкой памяти.
+________________________________________
+2. Очередь 
+Цель: Организация хранения данных с принципом "первым пришел — первым ушел".
+Особенности формирования:
+o	Python: Поддерживаются два подхода: библиотека queue.Queue и коллекция collections.deque. Первый вариант подходит для многопоточности, второй — для быстрых операций ввода-вывода. Оба варианта обеспечивают эффективные операции по добавлению и извлечению элементов.
+o	C++: Стандартная библиотека включает классы std::queue и std::deque. Эти структуры позволяют быстро манипулировать элементами, обеспечивая необходимую производительность даже при больших объемах данных.
+o	Java: Библиотека java.util.Queue реализована в классе LinkedList, который обеспечивает эффективную работу с большими наборами данных. Этот класс обладает методами для быстрой вставки и удаления элементов.
+________________________________________
+3. Дек (Двунаправленная очередь)
+Цель: Возможность добавления и удаления элементов как с начала, так и с конца очереди.
+Особенности формирования:
+o	Python: Классы collections.deque предоставляют быстрый доступ к обоим концам очереди. Эта структура удобна для приложений, требующих постоянного изменения размеров очереди.
+o	C++: Классы std::deque оптимизированы для быстрой вставки и удаления элементов с обеих сторон. Они поддерживают произвольный доступ и являются предпочтительным выбором для большинства случаев.
+o	Java: Классы ArrayDeque и LinkedList предлагают эффективный способ работы с двумя направлениями очереди. Оба подходят для ситуаций, когда необходим свободный доступ к началу и концу очереди.
+________________________________________
+4. Приоритетная очередь
+Цель: Хранилище данных, обеспечивающее выбор элементов по уровню приоритета.
+Особенности формирования:
+o	Python: Модуль queue.PriorityQueue реализует такую очередь на основе принципа минимального дерева (Min Heap). Элементы выбираются по наименьшему приоритету. Альтернативой является модуль heapq, который реализует алгоритм пирамидальной очереди.
+o	C++: Класс std::priority_queue основан на структуре max-heap. Он автоматически сортирует элементы по максимальному приоритету. Можно настраивать поведение очереди путем перегрузки операторов сравнения.
+o	Java: Класс PriorityQueue доступен в пакете java.util. Благодаря поддержке интерфейса Comparable и классу Comparator, возможна гибкая настройка поведения очереди, включая сортировку по различным критериям.
+________________________________________
+Заключение
+Каждая из рассмотренных структур имеет свои преимущества и недостатки, зависящие от выбранного языка программирования. Python выделяется своей лаконичностью и легкостью реализации, C++ — производительностью и контролем над ресурсами, Java — универсальностью и масштабируемостью.
+ 	
