@@ -1,0 +1,46 @@
+def greedy_knapsack(items, capacity):
+    # Сортируем предметы по удельной стоимости (убывание)
+    sorted_items = sorted(
+        enumerate(items),
+        key=lambda x: x[1]['value'] / x[1]['weight'],
+        reverse=True)
+    
+    
+    total_weight = 0
+    total_value = 0
+    selected = []
+    
+    # Жадно добавляем предметы
+    for idx, item in sorted_items:
+        if total_weight + item['weight'] <= capacity:
+            selected.append(idx)
+            total_weight += item['weight']
+            total_value += item['value']
+    
+    return selected, total_value, 0.5  # коэффициент аппроксимации
+
+# Входные данные
+items = [
+    {'weight': 3, 'value': 12},
+    {'weight': 2, 'value': 8},
+    {'weight': 4, 'value': 20},
+    {'weight': 5, 'value': 18}
+]
+capacity = 7
+
+# Запуск и вывод
+selected, total_val, approx_ratio = greedy_knapsack(items, capacity)
+print("Выбранные предметы (индексы):", selected)
+for idx in selected:
+    print(f"  Вес: {items[idx]['weight']}, Стоимость: {items[idx]['value']}")
+print(f"Общая стоимость: {total_val}")
+print(f"Коэффициент аппроксимации: ≥ {approx_ratio})")
+
+
+____________________________________________________________________________
+Вывод
+Выбранные предметы (индексы): [2, 0]
+  Вес: 4, Стоимость: 20
+  Вес: 3, Стоимость: 12
+Общая стоимость: 32
+Коэффициент аппроксимации: ≥ 0.5)
